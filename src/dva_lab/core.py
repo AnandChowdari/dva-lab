@@ -96,22 +96,61 @@ def show_experiment(number: int) -> str:
     return md
 
 
-def get_code(number: int) -> str:
-    """Return the raw, complete source code for an experiment as a string.
+class CodeString(str):
+    """String subclass that renders with syntax highlighting in Jupyter Notebook."""
 
-    Suitable for copying, programmatic inspection, or saving to a file.
+    def __new__(cls, content: str, language: str = "python"):
+        obj = super().__new__(cls, content)
+        obj.language = language
+        return obj
+
+    def _repr_markdown_(self) -> str:
+        """Render syntax-highlighted code block in Jupyter."""
+        return f"```{self.language}\n{self}\n```"
+
+    def __repr__(self) -> str:
+        return str(self)
+
+
+def get_code(number: int) -> CodeString:
+    """Return the raw, complete source code for an experiment as a CodeString.
+
+    In Jupyter Notebooks, renders as a syntax-highlighted code block that can be
+    easily read, selected, and copied.
 
     Args:
         number: Experiment index from 1 to 12.
 
     Returns:
-        The complete source code as a string.
+        CodeString containing the complete source code.
 
     Raises:
         ValueError: If number is not an integer between 1 and 12.
     """
     exp = registry.get(number)
-    return exp.code
+    lang = "sql" if "SQL" in exp.category else ("python" if "Python" in exp.category else "text")
+    return CodeString(exp.code, language=lang)
+
+
+def show_code(number: int) -> CodeString:
+    """Display the raw source code for an experiment with syntax highlighting.
+
+    Args:
+        number: Experiment index from 1 to 12.
+
+    Returns:
+        CodeString for copying or programmatic use.
+    """
+    code = get_code(number)
+    if not is_jupyter():
+        print(code)
+    else:
+        try:
+            from IPython.display import display, Markdown
+            display(Markdown(f"```{code.language}\n{code}\n```"))
+        except Exception:
+            print(code)
+    return code
 
 
 def run_experiment(number: int, **kwargs) -> Any:
@@ -121,10 +160,12 @@ def run_experiment(number: int, **kwargs) -> Any:
     - Experiments 1 and 2 (SQL): Displays PostgreSQL scripts & instructions (safe execution).
     - Experiments 10 to 12 (Power BI): Displays report construction guide & DAX analysis.
 
+    Special Arguments:
+        code=True (or show_code=True): Display and return source code instead of running.
+
     Args:
         number: Experiment index from 1 to 12.
-        **kwargs: Optional keyword arguments passed to the experiment runner
-                  (e.g., show=True, side_by_side=True, connection=conn).
+        **kwargs: Optional keyword arguments passed to the experiment runner.
 
     Returns:
         The result of the experiment runner (figures for Python, script for SQL/Power BI).
@@ -132,6 +173,9 @@ def run_experiment(number: int, **kwargs) -> Any:
     Raises:
         ValueError: If number is not an integer between 1 and 12.
     """
+    if kwargs.get("code") or kwargs.get("show_code"):
+        return show_code(number)
+
     exp = registry.get(number)
     return exp.run(**kwargs)
 
@@ -198,6 +242,73 @@ def exp11(**kwargs) -> Any:
 def exp12(**kwargs) -> Any:
     """Shortcut: Experiment 12 - Power BI conditional & logical analysis (IF, AND, OR)."""
     return run_experiment(12, **kwargs)
+
+
+# ----------------------------------------------------------------------------
+# Code-only Shortcuts (code1 through code12 and code())
+# ----------------------------------------------------------------------------
+
+code = show_code
+
+
+def code1() -> CodeString:
+    """Shortcut: Print and return source code for Experiment 1 (PostgreSQL OLAP)."""
+    return show_code(1)
+
+
+def code2() -> CodeString:
+    """Shortcut: Print and return source code for Experiment 2 (Star Schema OLAP)."""
+    return show_code(2)
+
+
+def code3() -> CodeString:
+    """Shortcut: Print and return source code for Experiment 3 (Vertical & Horizontal Bar Charts)."""
+    return show_code(3)
+
+
+def code4() -> CodeString:
+    """Shortcut: Print and return source code for Experiment 4 (Grouped & Stacked Bar Charts)."""
+    return show_code(4)
+
+
+def code5() -> CodeString:
+    """Shortcut: Print and return source code for Experiment 5 (Single & Multi-Variable Histograms)."""
+    return show_code(5)
+
+
+def code6() -> CodeString:
+    """Shortcut: Print and return source code for Experiment 6 (Single & Multi-Variable Density Plots)."""
+    return show_code(6)
+
+
+def code7() -> CodeString:
+    """Shortcut: Print and return source code for Experiment 7 (ECDF Plot)."""
+    return show_code(7)
+
+
+def code8() -> CodeString:
+    """Shortcut: Print and return source code for Experiment 8 (Q-Q Plot)."""
+    return show_code(8)
+
+
+def code9() -> CodeString:
+    """Shortcut: Print and return source code for Experiment 9 (Scatter Plot)."""
+    return show_code(9)
+
+
+def code10() -> CodeString:
+    """Shortcut: Print and return source code / procedure for Experiment 10 (Power BI Sales Visuals)."""
+    return show_code(10)
+
+
+def code11() -> CodeString:
+    """Shortcut: Print and return source code / DAX for Experiment 11 (Power BI DAX Measures)."""
+    return show_code(11)
+
+
+def code12() -> CodeString:
+    """Shortcut: Print and return source code / DAX for Experiment 12 (Power BI Logic IF/AND/OR)."""
+    return show_code(12)
 
 
 def about() -> None:
