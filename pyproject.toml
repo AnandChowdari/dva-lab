@@ -1,0 +1,82 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dva-lab"
+version = "0.1.0"
+description = "A Python package for Data Visualization and Analytics (DVA) laboratory experiments in Jupyter Notebook."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "DVA Lab Team", email = "dva-lab@example.com" }
+]
+keywords = [
+    "data-visualization",
+    "analytics",
+    "dva",
+    "jupyter",
+    "matplotlib",
+    "seaborn",
+    "powerbi",
+    "olap",
+    "sql",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Visualization",
+    "Framework :: Jupyter",
+]
+dependencies = []
+
+[project.optional-dependencies]
+viz = [
+    "matplotlib>=3.5.0",
+    "numpy>=1.20.0",
+    "seaborn>=0.12.0",
+    "scipy>=1.7.0",
+    "statsmodels>=0.13.0",
+]
+full = [
+    "dva-lab[viz]",
+    "pandas>=1.3.0",
+    "ipython>=8.0.0",
+]
+test = [
+    "pytest>=7.0.0",
+    "matplotlib>=3.5.0",
+    "numpy>=1.20.0",
+    "seaborn>=0.12.0",
+    "scipy>=1.7.0",
+    "statsmodels>=0.13.0",
+    "pandas>=1.3.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/YOUR-USERNAME/dva-lab"
+Repository = "https://github.com/YOUR-USERNAME/dva-lab.git"
+Issues = "https://github.com/YOUR-USERNAME/dva-lab/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"dva_lab" = ["data/*.csv"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning",
+]
