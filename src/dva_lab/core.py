@@ -142,14 +142,14 @@ def show_code(number: int) -> CodeString:
         CodeString for copying or programmatic use.
     """
     code = get_code(number)
-    if not is_jupyter():
-        print(code)
-    else:
+    if is_jupyter():
         try:
             from IPython.display import display, Markdown
             display(Markdown(f"```{code.language}\n{code}\n```"))
+            return code
         except Exception:
-            print(code)
+            pass
+    print(code)
     return code
 
 
