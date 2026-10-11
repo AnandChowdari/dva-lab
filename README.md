@@ -50,23 +50,23 @@ Paste and execute directly in a notebook cell:
 
 ```python
 # Install directly from GitHub with visualization dependencies
-%pip install "git+https://github.com/YOUR-USERNAME/dva-lab.git#egg=dva-lab[viz]"
+%pip install "git+https://github.com/AnandChowdari/dva-lab.git#egg=dva-lab[viz]"
 ```
 
-*Note: Replace `YOUR-USERNAME` with your GitHub username or organization repository URL.*
+*Note: Replace `AnandChowdari` with your GitHub username or organization repository URL.*
 
 ### Local Development & Pip
 
 #### Windows (PowerShell):
 ```powershell
-git clone https://github.com/YOUR-USERNAME/dva-lab.git
+git clone https://github.com/AnandChowdari/dva-lab.git
 cd dva-lab
 pip install -e .[viz]
 ```
 
 #### macOS / Linux:
 ```bash
-git clone https://github.com/YOUR-USERNAME/dva-lab.git
+git clone https://github.com/AnandChowdari/dva-lab.git
 cd dva-lab
 pip install -e ".[viz]"
 ```
@@ -75,7 +75,7 @@ pip install -e ".[viz]"
 
 | Group | Install Command | Included Packages | Purpose |
 |---|---|---|---|
-| **Base** | `pip install git+https://github.com/YOUR-USERNAME/dva-lab.git` | Pure Python core | Code retrieval, schema inspection, CLI list |
+| **Base** | `pip install git+https://github.com/AnandChowdari/dva-lab.git` | Pure Python core | Code retrieval, schema inspection, CLI list |
 | **`viz`** | `pip install "dva-lab[viz]"` | `matplotlib`, `numpy`, `seaborn`, `scipy`, `statsmodels` | Plotting experiments (Exp 3–9) |
 | **`full`** | `pip install "dva-lab[full]"` | `viz` + `pandas` + `ipython` | Full workbook with simulations & dataset tools |
 | **`test`** | `pip install "dva-lab[test]"` | `viz` + `pandas` + `pytest` | Running the test suite locally |
@@ -207,7 +207,7 @@ Power BI Desktop reports are interactive Windows visual applications. `dva-lab` 
 
 ### Update to Latest Version
 ```python
-%pip install --upgrade --force-reinstall git+https://github.com/YOUR-USERNAME/dva-lab.git
+%pip install --upgrade --force-reinstall git+https://github.com/AnandChowdari/dva-lab.git
 ```
 
 ### Uninstall

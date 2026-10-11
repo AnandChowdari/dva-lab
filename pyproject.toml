@@ -62,9 +62,9 @@ test = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/YOUR-USERNAME/dva-lab"
-Repository = "https://github.com/YOUR-USERNAME/dva-lab.git"
-Issues = "https://github.com/YOUR-USERNAME/dva-lab/issues"
+Homepage = "https://github.com/AnandChowdari/dva-lab"
+Repository = "https://github.com/AnandChowdari/dva-lab.git"
+Issues = "https://github.com/AnandChowdari/dva-lab/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]

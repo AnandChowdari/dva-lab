@@ -236,7 +236,7 @@ Experiments Catalog:
     11. Power BI Sales Calculations and DAX Measures
     12. Power BI Conditional and Logical Analysis (IF, AND, OR)
 
-Repository: https://github.com/YOUR-USERNAME/dva-lab.git
+Repository: https://github.com/AnandChowdari/dva-lab.git
 Authoritative Reference: DVA Lab Record
 ================================================================================
 """
