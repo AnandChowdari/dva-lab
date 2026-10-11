@@ -50,7 +50,7 @@ Paste and execute directly in a notebook cell:
 
 ```python
 # Install directly from GitHub with visualization dependencies
-%pip install "git+https://github.com/AnandChowdari/dva-lab.git#egg=dva-lab[viz]"
+%pip install "dva-lab[viz] @ git+https://github.com/AnandChowdari/dva-lab.git"
 ```
 
 *Note: Replace `AnandChowdari` with your GitHub username or organization repository URL.*
