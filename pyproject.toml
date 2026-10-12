@@ -4,30 +4,33 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dva-lab"
-version = "0.1.0"
-description = "A Python package for Data Visualization and Analytics (DVA) laboratory experiments in Jupyter Notebook."
+version = "0.2.0"
+description = "A cloud-synchronized Python package for Data Visualization and Analytics (DVA) experiments in Jupyter Notebook and Python."
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "MIT" }
+license = "MIT"
 authors = [
-    { name = "DVA Lab Team", email = "dva-lab@example.com" }
+    { name = "Anand Chowdari", email = "anandchowdari@example.com" }
 ]
 keywords = [
     "data-visualization",
     "analytics",
     "dva",
+    "dva-lab",
     "jupyter",
     "matplotlib",
     "seaborn",
     "powerbi",
     "olap",
     "sql",
+    "dax",
+    "education",
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Education",
     "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Developers",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -35,8 +38,16 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering :: Visualization",
     "Framework :: Jupyter",
+    "Framework :: IPython",
 ]
-dependencies = []
+dependencies = [
+    "matplotlib>=3.5.0",
+    "numpy>=1.20.0",
+    "seaborn>=0.12.0",
+    "scipy>=1.7.0",
+    "statsmodels>=0.13.0",
+    "pandas>=1.3.0",
+]
 
 [project.optional-dependencies]
 viz = [
@@ -59,7 +70,13 @@ test = [
     "scipy>=1.7.0",
     "statsmodels>=0.13.0",
     "pandas>=1.3.0",
+    "build",
+    "twine",
 ]
+
+[project.scripts]
+dva-lab = "dva_lab.cli:main"
+dvalab = "dva_lab.cli:main"
 
 [project.urls]
 Homepage = "https://github.com/AnandChowdari/dva-lab"
@@ -70,7 +87,7 @@ Issues = "https://github.com/AnandChowdari/dva-lab/issues"
 where = ["src"]
 
 [tool.setuptools.package-data]
-"dva_lab" = ["data/*.csv"]
+"dva_lab" = ["data/*.csv", "index.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

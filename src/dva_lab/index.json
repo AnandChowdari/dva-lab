@@ -1,0 +1,297 @@
+{
+  "1": {
+    "id": 1,
+    "title": "OLAP Operations Using Materialized Views",
+    "name": "OLAP Operations Using Materialized Views",
+    "description": "Perform OLAP operations using Materialized views.",
+    "aim": "Perform OLAP operations using Materialized views.",
+    "category": "OLAP & Data Warehousing (SQL)",
+    "type": "sql",
+    "language": "sql",
+    "dependencies": [
+      "PostgreSQL 12+"
+    ],
+    "requires_external": true,
+    "environment": "PostgreSQL 12+",
+    "tags": [
+      "sql",
+      "olap",
+      "materialized-views",
+      "cube",
+      "postgresql"
+    ],
+    "file": "codes/01_olap.sql",
+    "result": "OLAP operations (Roll Up, Slice, Dice, and Pivot) using materialized views were successfully formulated and executed."
+  },
+  "2": {
+    "id": 2,
+    "title": "OLAP Operations Using Materialized Views (Star Schema)",
+    "name": "OLAP Operations Using Materialized Views (Star Schema)",
+    "description": "Perform OLAP operations by creating and using Materialized views based on a Star schema. (Assume typical star schema tables such as fact_sales, dim_product, dim_city, and dim_time.)",
+    "aim": "Perform OLAP operations by creating and using Materialized views based on a Star schema. (Assume typical star schema tables such as fact_sales, dim_product, dim_city, and dim_time.)",
+    "category": "OLAP & Data Warehousing (SQL)",
+    "type": "sql",
+    "language": "sql",
+    "dependencies": [
+      "PostgreSQL 12+"
+    ],
+    "requires_external": true,
+    "environment": "PostgreSQL 12+",
+    "tags": [
+      "sql",
+      "star-schema",
+      "data-warehouse",
+      "drill-down",
+      "postgresql"
+    ],
+    "file": "codes/02_star_schema.sql",
+    "result": "OLAP operations (Roll Up, Drill Down, Slice, Dice, and Pivot) using a Star Schema materialized view were successfully implemented and validated in PostgreSQL."
+  },
+  "3": {
+    "id": 3,
+    "title": "Vertical and Horizontal Bar Charts",
+    "name": "Vertical and Horizontal Bar Charts",
+    "description": "Write a Python program to Implement or create horizontal and vertical bar charts.",
+    "aim": "Write a Python program to Implement or create horizontal and vertical bar charts.",
+    "category": "Data Visualization (Python)",
+    "type": "python",
+    "language": "python",
+    "dependencies": [
+      "matplotlib",
+      "numpy"
+    ],
+    "requires_external": false,
+    "environment": "Python 3.10+",
+    "tags": [
+      "matplotlib",
+      "numpy",
+      "bar-chart",
+      "visualization"
+    ],
+    "file": "codes/03_bar_charts.py",
+    "result": "Vertical and horizontal bar charts were successfully plotted and compared using Matplotlib and NumPy."
+  },
+  "4": {
+    "id": 4,
+    "title": "Grouped and Stacked Bar Charts",
+    "name": "Grouped and Stacked Bar Charts",
+    "description": "Write a Python program to Implement or create grouped and stacked bar charts.",
+    "aim": "Write a Python program to Implement or create grouped and stacked bar charts.",
+    "category": "Data Visualization (Python)",
+    "type": "python",
+    "language": "python",
+    "dependencies": [
+      "matplotlib",
+      "numpy"
+    ],
+    "requires_external": false,
+    "environment": "Python 3.10+",
+    "tags": [
+      "matplotlib",
+      "numpy",
+      "stacked-bar",
+      "grouped-bar"
+    ],
+    "file": "codes/04_grouped_stacked.py",
+    "result": "Grouped and stacked bar charts were successfully implemented and visualized using Matplotlib and NumPy."
+  },
+  "5": {
+    "id": 5,
+    "title": "Single and Multiple Variable Histograms",
+    "name": "Single and Multiple Variable Histograms",
+    "description": "Write a Python program to Implement histogram using single and multiple variable distribution.",
+    "aim": "Write a Python program to Implement histogram using single and multiple variable distribution.",
+    "category": "Data Visualization (Python)",
+    "type": "python",
+    "language": "python",
+    "dependencies": [
+      "matplotlib",
+      "numpy"
+    ],
+    "requires_external": false,
+    "environment": "Python 3.10+",
+    "tags": [
+      "matplotlib",
+      "numpy",
+      "histogram",
+      "distribution"
+    ],
+    "file": "codes/05_histograms.py",
+    "result": "Single-variable and multiple-variable histograms were successfully implemented and plotted using Matplotlib."
+  },
+  "6": {
+    "id": 6,
+    "title": "Single and Multiple Variable Density Plots",
+    "name": "Single and Multiple Variable Density Plots",
+    "description": "Write a Python program to implement density plot using single and multiple variable distribution.",
+    "aim": "Write a Python program to implement density plot using single and multiple variable distribution.",
+    "category": "Data Visualization (Python)",
+    "type": "python",
+    "language": "python",
+    "dependencies": [
+      "matplotlib",
+      "seaborn",
+      "numpy"
+    ],
+    "requires_external": false,
+    "environment": "Python 3.10+",
+    "tags": [
+      "seaborn",
+      "matplotlib",
+      "kde",
+      "density-plot"
+    ],
+    "file": "codes/06_density.py",
+    "result": "Single-variable and multiple-variable density plots were successfully generated using Seaborn and Matplotlib."
+  },
+  "7": {
+    "id": 7,
+    "title": "Empirical Cumulative Distribution Function (ECDF) Plot",
+    "name": "Empirical Cumulative Distribution Function (ECDF) Plot",
+    "description": "Write a Python program to implement an Empirical Cumulative Distribution Function (ECDF) plot.",
+    "aim": "Write a Python program to implement an Empirical Cumulative Distribution Function (ECDF) plot.",
+    "category": "Data Visualization (Python)",
+    "type": "python",
+    "language": "python",
+    "dependencies": [
+      "matplotlib",
+      "numpy",
+      "statsmodels"
+    ],
+    "requires_external": false,
+    "environment": "Python 3.10+",
+    "tags": [
+      "statsmodels",
+      "ecdf",
+      "probability",
+      "cumulative"
+    ],
+    "file": "codes/07_ecdf.py",
+    "result": "The Empirical Cumulative Distribution Function (ECDF) plot was successfully computed using statsmodels and rendered with Matplotlib."
+  },
+  "8": {
+    "id": 8,
+    "title": "Q-Q Plot to Compare Datasets",
+    "name": "Q-Q Plot to Compare Datasets",
+    "description": "Write a Python program to implement a Q-Q (quantile-quantile) plot to compare two datasets.",
+    "aim": "Write a Python program to implement a Q-Q (quantile-quantile) plot to compare two datasets.",
+    "category": "Data Visualization (Python)",
+    "type": "python",
+    "language": "python",
+    "dependencies": [
+      "matplotlib",
+      "numpy",
+      "scipy"
+    ],
+    "requires_external": false,
+    "environment": "Python 3.10+",
+    "tags": [
+      "scipy",
+      "qq-plot",
+      "normality",
+      "quantiles"
+    ],
+    "file": "codes/08_qq_plot.py",
+    "result": "A Q-Q plot comparing two datasets was successfully generated and analyzed using SciPy stats and Matplotlib."
+  },
+  "9": {
+    "id": 9,
+    "title": "Scatter Plot Using Sample Data",
+    "name": "Scatter Plot Using Sample Data",
+    "description": "Write a Python program to implement a Scatter Plot using sample data.",
+    "aim": "Write a Python program to implement a Scatter Plot using sample data.",
+    "category": "Data Visualization (Python)",
+    "type": "python",
+    "language": "python",
+    "dependencies": [
+      "matplotlib",
+      "numpy"
+    ],
+    "requires_external": false,
+    "environment": "Python 3.10+",
+    "tags": [
+      "matplotlib",
+      "numpy",
+      "scatter-plot",
+      "correlation"
+    ],
+    "file": "codes/09_scatter.py",
+    "result": "A scatter plot of bivariate sample data was successfully created and visualized using Matplotlib and NumPy."
+  },
+  "10": {
+    "id": 10,
+    "title": "Power BI Sales Data Visualization",
+    "name": "Power BI Sales Data Visualization",
+    "description": "Using Power BI, perform sales data visualization using predefined fields.",
+    "aim": "Using Power BI, perform sales data visualization using predefined fields.",
+    "category": "Business Intelligence (Power BI)",
+    "type": "powerbi",
+    "language": "text",
+    "dependencies": [
+      "Power BI Desktop",
+      "pandas (optional for dataset preview)"
+    ],
+    "requires_external": true,
+    "environment": "Power BI Desktop",
+    "tags": [
+      "powerbi",
+      "dashboard",
+      "sales-data",
+      "slicers",
+      "visuals"
+    ],
+    "file": "codes/10_powerbi_visualization.txt",
+    "result": "Using Power BI Desktop, sales data visualizations (Clustered column, Pie, Line, Card, and Slicer) were successfully configured and verified."
+  },
+  "11": {
+    "id": 11,
+    "title": "Power BI Sales Calculations and DAX Measures",
+    "name": "Power BI Sales Calculations and DAX Measures",
+    "description": "Using Power BI, perform sales calculation and percentage analysis using calculated columns and DAX measures.",
+    "aim": "Using Power BI, perform sales calculation and percentage analysis using calculated columns and DAX measures.",
+    "category": "Business Intelligence (Power BI)",
+    "type": "powerbi",
+    "language": "dax",
+    "dependencies": [
+      "Power BI Desktop",
+      "sales_data.csv"
+    ],
+    "requires_external": true,
+    "environment": "Power BI Desktop",
+    "tags": [
+      "powerbi",
+      "dax",
+      "measures",
+      "calculate",
+      "profit-margin"
+    ],
+    "file": "codes/11_powerbi_dax.dax",
+    "result": "Calculated columns (Total Cost, Profit) and DAX measures (Total Sales, Total Profit, Profit Margin %, Sales % of Total) were successfully created and visualized in Power BI."
+  },
+  "12": {
+    "id": 12,
+    "title": "Power BI Conditional and Logical Analysis",
+    "name": "Power BI Conditional and Logical Analysis",
+    "description": "Using Power BI, perform conditional and logical analysis using IF, AND, OR, and display totals and percentages using visualizations.",
+    "aim": "Using Power BI, perform conditional and logical analysis using IF, AND, OR, and display totals and percentages using visualizations.",
+    "category": "Business Intelligence (Power BI)",
+    "type": "powerbi",
+    "language": "dax",
+    "dependencies": [
+      "Power BI Desktop",
+      "sales_data.csv"
+    ],
+    "requires_external": true,
+    "environment": "Power BI Desktop",
+    "tags": [
+      "powerbi",
+      "dax",
+      "if",
+      "and",
+      "or",
+      "conditional-logic"
+    ],
+    "file": "codes/12_powerbi_logic.dax",
+    "result": "Conditional and logical analysis using IF, AND, OR, along with totals and percentages, was successfully established and visualized in Power BI Desktop."
+  }
+}

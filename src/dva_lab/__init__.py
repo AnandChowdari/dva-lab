@@ -1,9 +1,11 @@
 """dva-lab: Data Visualization and Analytics Laboratory Python Package.
 
-A self-contained Python library for retrieving, displaying, and executing
-DVA lab experiments directly inside Jupyter Notebook, JupyterLab, and Google Colab.
+A cloud-synchronized Python library for retrieving, displaying, and executing
+DVA lab experiments directly inside Jupyter Notebook, JupyterLab, Google Colab,
+and standalone scripts.
 """
 
+from .config import configure, get_config, reset_config
 from .core import (
     list_experiments,
     show_experiment,
@@ -11,6 +13,8 @@ from .core import (
     show_code,
     code,
     run_experiment,
+    search,
+    get_info,
     exp1,
     exp2,
     exp3,
@@ -43,16 +47,31 @@ from .experiments.exp10_powerbi_visualization import (
     load_sales_data,
 )
 from .registry import registry
+from .exceptions import (
+    DVALabError,
+    ExperimentNotFoundError,
+    RepositoryNotFoundError,
+    RemoteFetchError,
+    ConfigurationError,
+    ExecutionEnvironmentError,
+)
+from .jupyter_extension import load_ipython_extension, unload_ipython_extension
 
-__version__ = "0.1.0"
-__author__ = "DVA Lab"
+__version__ = "0.2.0"
+__author__ = "Anand Chowdari"
 
 __all__ = [
+    "configure",
+    "get_config",
+    "reset_config",
     "list_experiments",
     "show_experiment",
     "get_code",
     "show_code",
+    "code",
     "run_experiment",
+    "search",
+    "get_info",
     "exp1",
     "exp2",
     "exp3",
@@ -65,7 +84,6 @@ __all__ = [
     "exp10",
     "exp11",
     "exp12",
-    "code",
     "code1",
     "code2",
     "code3",
@@ -78,10 +96,26 @@ __all__ = [
     "code10",
     "code11",
     "code12",
-    "about",
-    "help",
     "load_sales_data",
     "get_sales_data_path",
     "registry",
-    "__version__",
+    "about",
+    "help",
+    "DVALabError",
+    "ExperimentNotFoundError",
+    "RepositoryNotFoundError",
+    "RemoteFetchError",
+    "ConfigurationError",
+    "ExecutionEnvironmentError",
+    "load_ipython_extension",
+    "unload_ipython_extension",
 ]
+
+# Auto-register IPython magic extension when inside an active IPython session
+try:
+    from IPython import get_ipython
+    _ip = get_ipython()
+    if _ip is not None:
+        load_ipython_extension(_ip)
+except Exception:
+    pass

@@ -1,242 +1,333 @@
 # 📊 `dva-lab` — Data Visualization & Analytics Laboratory Library
 
+[![PyPI Version](https://img.shields.io/pypi/v/dva-lab.svg)](https://pypi.org/project/dva-lab/)
 [![Python Version](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Jupyter Compatible](https://img.shields.io/badge/Jupyter-Notebook%20%7C%20Lab%20%7C%20Colab-orange.svg)](https://jupyter.org/)
-[![Tests](https://img.shields.io/badge/tests-59%20passed-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/tests-74%20passed-brightgreen.svg)]()
 
-**`dva-lab`** is an installable, self-contained Python library engineered for university students and educators. It enables students to retrieve, display, study, and execute all 12 Data Visualization and Analytics (DVA) laboratory experiments directly inside **Jupyter Notebook**, **JupyterLab**, or **Google Colab**.
-
-The package stores the complete, authoritative source code, schemas, and datasets locally within the library. It does not depend on fetching code from the internet during runtime.
+> **Cloud-synchronized, personal code library and execution engine for Data Visualization and Analytics (DVA) experiments.**  
+> Retrieve, study, and run all 12 DVA laboratory experiments seamlessly in **Jupyter Notebook**, **JupyterLab**, **Google Colab**, or the **Terminal** over HTTPS with `pip install dva-lab`.
 
 ---
 
 ## 📑 Table of Contents
 
-- [Features](#-features)
-- [Installation](#-installation)
-  - [Google Colab & Jupyter Notebook](#google-colab--jupyter-notebook)
-  - [Local Development & Pip](#local-development--pip)
-  - [Optional Dependency Sets](#optional-dependency-sets)
-- [Quick Start](#-quick-start)
-- [Complete Experiment Catalog](#-complete-experiment-catalog)
-- [Public API Reference](#-public-api-reference)
-- [Experiment Execution Guidelines](#-experiment-execution-guidelines)
-  - [SQL & OLAP Experiments (Exp 1 & 2)](#1-sql--olap-experiments-experiments-1-and-2)
-  - [Python Plotting Experiments (Exp 3 to 9)](#2-python-plotting-experiments-experiments-3-to-9)
-  - [Power BI & DAX Experiments (Exp 10 to 12)](#3-power-bi--dax-experiments-experiments-10-to-12)
-- [Updating & Uninstalling](#-updating--uninstalling)
-- [Contributing](#-contributing)
-- [License](#-license)
+- [1. Overview & Architecture](#1-overview--architecture)
+- [2. Installation](#2-installation)
+- [3. Quick Start Workflow](#3-quick-start-workflow)
+- [4. Remote GitHub Cloud Code Storage](#4-remote-github-cloud-code-storage)
+- [5. Jupyter Notebook & IPython Magics](#5-jupyter-notebook--ipython-magics)
+- [6. Command-Line Interface (CLI)](#6-command-line-interface-cli)
+- [7. Complete 12-Experiment Catalog](#7-complete-12-experiment-catalog)
+- [8. Execution Guidelines](#8-execution-guidelines)
+  - [SQL / OLAP Experiments (1 & 2)](#sql--olap-experiments-1--2)
+  - [Python Visualization Experiments (3 to 9)](#python-visualization-experiments-3-to-9)
+  - [Power BI & DAX Experiments (10 to 12)](#power-bi--dax-experiments-10-to-12)
+- [9. Testing in a Clean Virtual Environment](#9-testing-in-a-clean-virtual-environment)
+- [10. Publishing Guide (TestPyPI & Production PyPI)](#10-publishing-guide-testpypi--production-pypi)
+- [11. License](#11-license)
 
 ---
 
-## 🚀 Features
+## 1. Overview & Architecture
 
-- **Jupyter-Native Experience**: Seamless inline rendering of Matplotlib/Seaborn plots and rich HTML/Markdown experiment guides.
-- **Self-Contained & Deterministic**: Bundles all source code, SQL definitions, Power BI DAX expressions, and sample datasets (`sales_data.csv`).
-- **Reproducible Seeds**: Synthetic distributions use fixed random seeds (`seed=0`) matching laboratory manual benchmarks.
-- **Safe & Non-Destructive**: Never connects to an unknown database without explicit authorization and never attempts mock Power BI execution.
-- **Convenient Shortcuts**: Direct function handles (`dva_lab.exp1()` through `dva_lab.exp12()`) for fast classroom access.
-- **Lightweight Core**: Base install contains zero compulsory heavy dependencies with lazy imports for plotting engines.
+`dva-lab` decouples laboratory code management from local machine environments:
+- **Zero Local Git Required**: Retrieves experiment files and metadata from GitHub over standard HTTPS.
+- **Offline Resilient & Self-Contained**: Automatically falls back to bundled authoritative experiment definitions and datasets (`sales_data.csv`) if disconnected or offline.
+- **Smart Caching**: In-memory caching and local disk caching (`~/.dva_lab/cache`) prevent redundant network requests and avoid API rate limits.
+- **Direct Jupyter Cell Injection**: `%load_code <id>` replaces active notebook cell contents with clean code ready to run or edit.
+- **Environment Aware**: Transparently differentiates standalone Python plots from external PostgreSQL database requirements and Microsoft Power BI Desktop reports.
+
+```text
+                    ┌──────────────────────────────────────────────┐
+                    │               GitHub Storage                 │
+                    │      github.com/AnandChowdari/dva-lab        │
+                    │                                              │
+                    │  codes/                                      │
+                    │    ├── 01_olap.sql                           │
+                    │    ├── 02_star_schema.sql                    │
+                    │    ├── 03_bar_charts.py                      │
+                    │    └── ... (12 experiments)                  │
+                    │  index.json (Catalog metadata)               │
+                    └──────────────────────┬───────────────────────┘
+                                           │
+                                           │ HTTPS (raw.githubusercontent.com)
+                                           ▼
+                    ┌──────────────────────────────────────────────┐
+                    │             dva-lab (Package)                │
+                    │           Import: import dva_lab             │
+                    │     (with intelligent offline fallback)      │
+                    └──────────────────────┬───────────────────────┘
+                                           │
+                                     pip install
+                                           │
+                ┌──────────────────────────┼──────────────────────────┐
+                ▼                          ▼                          ▼
+          Google Colab              Jupyter Notebook           Command Line (CLI)
+      %pip install dva-lab        import dva_lab as dva        dva-lab get 3 -o exp3.py
+      dva.run_experiment(3)       %load_code 3                 dva-lab list
+```
 
 ---
 
-## 📦 Installation
+## 2. Installation
 
-### Google Colab & Jupyter Notebook
+### From PyPI (Production)
+```bash
+pip install dva-lab
+```
 
-Paste and execute directly in a notebook cell:
-
+In Jupyter Notebook or Google Colab:
 ```python
-# Install directly from GitHub with visualization dependencies
-%pip install "dva-lab[viz] @ git+https://github.com/AnandChowdari/dva-lab.git"
+%pip install dva-lab
 ```
 
-*Note: Replace `AnandChowdari` with your GitHub username or organization repository URL.*
-
-### Local Development & Pip
-
-#### Windows (PowerShell):
-```powershell
-git clone https://github.com/AnandChowdari/dva-lab.git
-cd dva-lab
-pip install -e .[viz]
+### From TestPyPI (Staging)
+```bash
+pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ dva-lab
 ```
 
-#### macOS / Linux:
+### From Source (Local Development)
 ```bash
 git clone https://github.com/AnandChowdari/dva-lab.git
 cd dva-lab
-pip install -e ".[viz]"
+pip install -e .
 ```
-
-### Optional Dependency Sets
-
-| Group | Install Command | Included Packages | Purpose |
-|---|---|---|---|
-| **Base** | `pip install git+https://github.com/AnandChowdari/dva-lab.git` | Pure Python core | Code retrieval, schema inspection, CLI list |
-| **`viz`** | `pip install "dva-lab[viz]"` | `matplotlib`, `numpy`, `seaborn`, `scipy`, `statsmodels` | Plotting experiments (Exp 3–9) |
-| **`full`** | `pip install "dva-lab[full]"` | `viz` + `pandas` + `ipython` | Full workbook with simulations & dataset tools |
-| **`test`** | `pip install "dva-lab[test]"` | `viz` + `pandas` + `pytest` | Running the test suite locally |
 
 ---
 
-## ⚡ Quick Start
+## 3. Quick Start Workflow
+
+```python
+from dva_lab import configure, list_experiments, get_code, show_experiment, run_experiment
+
+# 1. Configure the remote GitHub repository (defaults to AnandChowdari/dva-lab)
+configure(username="AnandChowdari", repository="dva-lab")
+
+# 2. List all 12 experiments in an interactive table
+list_experiments()
+
+# 3. Retrieve raw source code over HTTPS without Git
+code = get_code(1)
+print(code)
+
+# 4. Display complete laboratory manual with theoretical concept & notes
+show_experiment(1)
+
+# 5. Run Python visualization experiment directly inline
+run_experiment(3)
+```
+
+---
+
+## 4. Remote GitHub Cloud Code Storage
+
+You can point `dva-lab` to your own GitHub fork or customized code repository:
 
 ```python
 import dva_lab
 
-# 1. Discover all registered experiments
-dva_lab.list_experiments()
+# Configure dynamically in Python
+dva_lab.configure(
+    username="YOUR_GITHUB_USERNAME",
+    repository="YOUR_DVA_REPOSITORY",
+    branch="main",          # Optional, defaults to "main"
+    timeout=10.0,           # Optional network timeout in seconds
+    persist=True            # Writes to ~/.dva_lab/config.json for future sessions
+)
+```
 
-# 2. Display formatted Markdown manual for Experiment 3
-dva_lab.show_experiment(3)
+### Environment Variables
+You can also set environment variables without modifying code:
+- `DVA_GITHUB_USER` : GitHub username or organization (e.g. `AnandChowdari`)
+- `DVA_GITHUB_REPO` : Repository name (e.g. `dva-lab`)
+- `DVA_GITHUB_BRANCH` : Git branch (e.g. `main`)
+- `DVA_TIMEOUT` : Network timeout in seconds
 
-# 3. Retrieve raw source code as a string
-code = dva_lab.get_code(3)
-print(code)
+---
 
-# 4. Execute experiment and render plots inline
-dva_lab.exp3()
+## 5. Jupyter Notebook & IPython Magics
+
+When `dva_lab` is imported, it automatically registers IPython line magics:
+
+| Magic Command | Description | Example |
+|---|---|---|
+| `%load_code <id>` | Injects code directly into the active cell (replaces magic cell) | `%load_code 3` |
+| `%show_experiment <id>` | Displays rich Markdown documentation with badges | `%show_experiment 1` |
+| `%list_experiments` | Renders the HTML table of all 12 experiments | `%list_experiments` |
+| `%run_experiment <id>` | Executes the experiment inline | `%run_experiment 3` |
+
+You can also load explicitly:
+```python
+%load_ext dva_lab
 ```
 
 ---
 
-## 📚 Complete Experiment Catalog
+## 6. Command-Line Interface (CLI)
 
-| # | Title | Category | Methodology / Tools | Focus |
+`dva-lab` installs a terminal command for rapid inspection and exporting:
+
+```bash
+# List all experiments
+dva-lab list
+
+# Display documentation for Experiment 1
+dva-lab show 1
+
+# Print code to terminal
+dva-lab get 3
+
+# Download and save code to a local file
+dva-lab get 3 --output exp03_bars.py
+
+# Search experiments by keyword
+dva-lab search histogram
+
+# Check or update GitHub configuration
+dva-lab config --username AnandChowdari --repository dva-lab --persist
+
+# Display package information
+dva-lab info
+```
+
+---
+
+## 7. Complete 12-Experiment Catalog
+
+| # | Title | Environment / Type | Methodology & Dependencies | Focus |
 |:---:|---|---|---|---|
-| **1** | OLAP Operations Using Materialized Views | `OLAP & SQL` | PostgreSQL 12+, CUBE | Materialized view, Roll Up, Slice, Dice, Pivot |
-| **2** | OLAP Operations Based on Star Schema | `OLAP & SQL` | PostgreSQL 12+, CUBE | Fact & dimension joins, Drill Down, Hierarchy |
-| **3** | Vertical and Horizontal Bar Charts | `Python Visualization` | Matplotlib, NumPy | `plt.bar`, `plt.barh`, categorical comparison |
-| **4** | Grouped and Stacked Bar Charts | `Python Visualization` | Matplotlib, NumPy | Positional offsets, stacked `bottom` vectors |
-| **5** | Single & Multiple Variable Histograms | `Python Visualization` | Matplotlib, NumPy | Bin frequency, alpha transparency, normal distributions |
-| **6** | Single & Multiple Variable Density Plots | `Python Visualization` | Seaborn, Matplotlib | Kernel Density Estimation (`sns.kdeplot`), area fills |
-| **7** | Empirical Cumulative Distribution Function | `Python Visualization` | Statsmodels, Matplotlib | Non-parametric ECDF step function (`sm.distributions.ECDF`) |
-| **8** | Q-Q Plot to Compare Datasets | `Python Visualization` | SciPy, Matplotlib | Normal probability quantiles (`stats.probplot`) |
-| **9** | Scatter Plot Using Sample Data | `Python Visualization` | Matplotlib, NumPy | Bivariate scatter points, alpha blending, correlation |
-| **10** | Power BI Sales Data Visualization | `Power BI` | Power BI Desktop, CSV | Column, Pie, Line, Card, Slicer dashboard |
-| **11** | Power BI Calculations & DAX Measures | `Power BI` | DAX, Power BI Desktop | `Total Cost`, `Profit`, `CALCULATE`, `ALL`, percentages |
-| **12** | Power BI Conditional & Logical Analysis | `Power BI` | DAX, Power BI Desktop | `IF`, `AND`, `OR`, `COUNTROWS`, dynamic sales tiers |
+| **1** | OLAP Operations Using Materialized Views | `PostgreSQL 12+` (SQL) | PostgreSQL, Materialized Views, CUBE | Roll Up, Slice, Dice, Pivot |
+| **2** | OLAP Operations Based on Star Schema | `PostgreSQL 12+` (SQL) | Fact & Dimension tables, CUBE | Star schema joins, Drill Down |
+| **3** | Vertical and Horizontal Bar Charts | `Python 3.10+` | Matplotlib, NumPy | `plt.bar`, `plt.barh`, categorical comparison |
+| **4** | Grouped and Stacked Bar Charts | `Python 3.10+` | Matplotlib, NumPy | Clustered offsets, stacked bottoms |
+| **5** | Single & Multiple Variable Histograms | `Python 3.10+` | Matplotlib, NumPy | Frequency bins, transparency overlays |
+| **6** | Single & Multiple Variable Density Plots | `Python 3.10+` | Seaborn, Matplotlib | KDE probability curves (`sns.kdeplot`) |
+| **7** | Empirical Cumulative Distribution Function | `Python 3.10+` | Statsmodels, Matplotlib | Non-parametric ECDF step function |
+| **8** | Q-Q Plot to Compare Two Datasets | `Python 3.10+` | SciPy, Matplotlib | Normal probability quantiles (`probplot`) |
+| **9** | Scatter Plot Using Sample Data | `Python 3.10+` | Matplotlib, NumPy | Bivariate correlation, alpha blending |
+| **10** | Power BI Sales Data Visualization | `Power BI Desktop` | Power BI Desktop, `sales_data.csv` | Clustered column, Pie, Line, Slicers |
+| **11** | Power BI Calculations & DAX Measures | `Power BI Desktop` | DAX, Power BI Desktop | `Total Cost`, `Profit`, `CALCULATE`, `ALL` |
+| **12** | Power BI Conditional & Logical Analysis | `Power BI Desktop` | DAX, Power BI Desktop | `IF`, `AND`, `OR`, Dynamic tiers |
 
 ---
 
-## 🛠 Public API Reference
+## 8. Execution Guidelines
 
-### `dva_lab.list_experiments()`
-Returns a rich `ExperimentList` containing all 12 experiments.
-- **In Jupyter**: Automatically renders a styled HTML table with badges.
-- **In Terminal**: Displays an aligned text summary.
-- **Convert to DataFrame**: `dva_lab.list_experiments().to_dataframe()`
-
-### `dva_lab.show_experiment(number: int)`
-Displays the complete laboratory manual for the experiment:
-- Experiment Aim
-- Theoretical Concept & Pedagogical Context
-- Complete, Corrected Input Code
-- Expected Visual Output or Result Table
-- Result Statement
-- Execution Notes & Errata
-
-### `dva_lab.get_code(number: int) -> str`
-Returns the exact, clean source code string for inspection or programmatic export:
-```python
-with open("exp03.py", "w") as f:
-    f.write(dva_lab.get_code(3))
-```
-
-### `dva_lab.run_experiment(number: int, **kwargs)`
-Executes the specified experiment:
-- For Python experiments (3–9): Renders plots inline.
-- Optional arguments:
-  - `show=True`: Call `plt.show()` inline.
-  - `side_by_side=True`: For multi-plot experiments (3, 4, 5, 6), combines subplots horizontally.
-
-### Convenience Shortcuts (`dva_lab.exp1()` ... `dva_lab.exp12()`)
-One-line helper functions to immediately access any experiment:
-```python
-dva_lab.exp1()   # Shows PostgreSQL SQL queries and setup guide
-dva_lab.exp3()   # Plots vertical and horizontal bar charts
-dva_lab.exp10()  # Shows Power BI visual setup guide and previews dataset
-```
-
-### `dva_lab.load_sales_data() -> pd.DataFrame`
-Loads and returns the authoritative 10-record `sales_data.csv` used in Experiments 10–12 as a pandas DataFrame:
-```python
-df = dva_lab.load_sales_data()
-print(df.head())
-```
-
-### `dva_lab.about()` / `dva_lab.help()`
-Prints library version, repository information, and API guide.
-
----
-
-## 🔬 Experiment Execution Guidelines
-
-### 1. SQL & OLAP Experiments (Experiments 1 and 2)
-Experiments 1 and 2 define complete PostgreSQL scripts including DDL (`CREATE TABLE`), sample `INSERT` records, materialized views with `GROUP BY CUBE`, and OLAP queries (`Roll Up`, `Drill Down`, `Slice`, `Dice`, `Pivot`).
-
-- **Safety Guarantee**: Calling `dva_lab.run_experiment(1)` or `dva_lab.exp1()` **never** executes SQL against an unconfigured server.
-- **Live Execution**: If you have an active PostgreSQL connection (e.g. `psycopg2` or `SQLAlchemy`), pass it explicitly:
+### SQL / OLAP Experiments (1 & 2)
+Experiments 1 and 2 define complete PostgreSQL DDL and OLAP queries.
+- **Safety Guarantee**: Calling `dva_lab.run_experiment(1)` or `dva_lab.exp1()` **never** alters an unconfigured database. It displays the verified SQL script and step-by-step instructions.
+- **Live Database Execution**: If you have an active database connection (e.g. `psycopg2` or `SQLAlchemy`), pass it directly:
   ```python
   dva_lab.run_experiment(1, connection=your_db_connection)
   ```
 
-### 2. Python Plotting Experiments (Experiments 3 to 9)
-All Python experiments run locally using Matplotlib, Seaborn, Statsmodels, and SciPy.
-- Fully compatible with Jupyter `%matplotlib inline` backend.
-- Deterministic synthetic data generated with `np.random.seed(0)`.
-- Support individual sequential plots or combined views (`side_by_side=True`).
-
-### 3. Power BI & DAX Experiments (Experiments 10 to 12)
-Power BI Desktop reports are interactive Windows visual applications. `dva-lab` provides:
-- Complete step-by-step instructions for fields, axes, and visual types.
-- Exact DAX measures and calculated column formulas.
-- Bundled CSV data via `dva_lab.load_sales_data()`.
-- Built-in Python validation simulation reproducing the DAX calculations directly in pandas:
+### Python Visualization Experiments (3 to 9)
+All 7 Python plotting experiments run directly in Jupyter or Python scripts:
+- Fully compatible with inline rendering (`%matplotlib inline`).
+- Deterministic synthetic distributions (`np.random.seed(0)`).
+- Execute with:
   ```python
-  from dva_lab.experiments.exp11_powerbi_dax import simulate_in_python
-  print(simulate_in_python())
+  dva_lab.run_experiment(3)  # or dva_lab.exp3()
   ```
 
----
-
-## 🔄 Updating & Uninstalling
-
-### Update to Latest Version
-```python
-%pip install --upgrade --force-reinstall git+https://github.com/AnandChowdari/dva-lab.git
-```
-
-### Uninstall
-```python
-%pip uninstall dva-lab -y
-```
+### Power BI & DAX Experiments (10 to 12)
+Power BI Desktop is a Windows visual application. `dva-lab` provides:
+- Step-by-step instructions for fields, axes, and visual configurations.
+- Exact DAX formulas for calculated columns and dynamic measures.
+- Bundled CSV data accessible via `dva_lab.load_sales_data()`.
+- Built-in pandas simulation verifying all DAX calculations in pure Python.
 
 ---
 
-## 🧪 Testing
+## 9. Testing in a Clean Virtual Environment
 
-The library comes with a complete test suite covering 100% of registry lookups, code snippets, headless plotting rendering, and DAX simulations:
+To build distributions and verify functionality in an isolated virtual environment:
 
+### Step 1: Run the Complete Test Suite
 ```bash
 pytest -v
 ```
+*(All 74 tests pass across registry, execution, CLI, configuration, and remote retrieval).*
+
+### Step 2: Build Wheel and Source Distribution
+```bash
+python -m build
+```
+This generates:
+- `dist/dva_lab-0.2.0-py3-none-any.whl`
+- `dist/dva_lab-0.2.0.tar.gz`
+
+### Step 3: Verify in Clean Virtualenv
+```bash
+# Create isolated environment
+python -m venv .test_venv
+
+# Activate environment (Windows PowerShell)
+.test_venv\Scripts\Activate.ps1
+# (or macOS/Linux: source .test_venv/bin/activate)
+
+# Install newly built wheel
+pip install dist/dva_lab-0.2.0-py3-none-any.whl
+
+# Test imports and execution
+python -c "import dva_lab; print(dva_lab.__version__); dva_lab.configure(username='AnandChowdari', repository='dva-lab'); print(dva_lab.get_code(1)[:80]); dva_lab.list_experiments()"
+
+# Test CLI
+dva-lab list
+dva-lab show 3
+
+# Deactivate and remove test venv
+deactivate
+Remove-Item -Recurse -Force .test_venv
+```
 
 ---
 
-## 🤝 Contributing
+## 10. Publishing Guide (TestPyPI & Production PyPI)
 
-1. Fork the repository on GitHub.
-2. Clone your fork and create a feature branch (`git checkout -b feature/new-experiment`).
-3. Add or update experiment files in `src/dva_lab/experiments/`.
-4. Ensure all tests pass: `pytest`.
-5. Submit a Pull Request.
+### Prerequisites
+Install Twine:
+```bash
+pip install twine
+```
+
+### Staging: Publish to TestPyPI
+1. Upload to TestPyPI:
+   ```bash
+   python -m twine upload --repository testpypi dist/*
+   ```
+   *(When prompted, enter `__token__` as username and your TestPyPI API token as password).*
+
+2. Verify TestPyPI installation in a fresh environment:
+   ```bash
+   pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ dva-lab
+   ```
+
+3. Test imports:
+   ```python
+   import dva_lab
+   print(dva_lab.__version__)
+   ```
+
+### Production: Publish to PyPI
+1. Upload to Production PyPI:
+   ```bash
+   python -m twine upload dist/*
+   ```
+   *(When prompted, enter `__token__` as username and your PyPI API token as password).*
+
+2. Verify Production installation:
+   ```bash
+   pip install --upgrade dva-lab
+   ```
+
+> [!NOTE]
+> Never commit or hardcode API tokens into your Git repository. Always use environment variables (`TWINE_PASSWORD`) or enter them securely via interactive terminal prompt.
 
 ---
 
-## 📄 License
+## 11. License
 
 This project is licensed under the [MIT License](LICENSE).

@@ -1,0 +1,46 @@
+================================================================================
+Experiment 12: Power BI Conditional and Logical Analysis (IF, AND, OR)
+Tool: Microsoft Power BI Desktop
+Source Data: sales_data.csv (With Profit column from Experiment 11)
+================================================================================
+
+1. CALCULATED COLUMNS (Modeling -> New Column)
+   -----------------------------------------------------------------------------
+   -- Column 1: Sales Level (Nested IF)
+   Sales Level = 
+   IF(Sales[Sales] >= 5000, "High",
+      IF(Sales[Sales] >= 2500, "Medium", "Low"))
+
+   -- Column 2: Bulk East Order (IF + AND)
+   Bulk East Order = 
+   IF(AND(Sales[Quantity] >= 10, Sales[Region] = "East"), "Yes", "No")
+
+   -- Column 3: Focus Order (IF + OR)
+   Focus Order = 
+   IF(OR(Sales[Region] = "West", Sales[Profit] >= 1000), "Yes", "No")
+
+2. DAX MEASURES (Modeling -> New Measure)
+   -----------------------------------------------------------------------------
+   -- Measure 1: Total Sales
+   Total Sales = SUM(Sales[Sales])
+
+   -- Measure 2: Order Count
+   Order Count = COUNTROWS(Sales)
+
+   -- Measure 3: Sales %
+   Sales % = 
+   DIVIDE([Total Sales], CALCULATE([Total Sales], ALL(Sales))) * 100
+
+3. REPORT VISUAL CONFIGURATION
+   -----------------------------------------------------------------------------
+   1. Table Visual:
+      - Columns: OrderID, Region, Sales, Sales Level, Bulk East Order, Focus Order
+   2. Clustered Column Chart:
+      - X-axis: Sales Level
+      - Y-axis: Order Count
+   3. Pie Chart:
+      - Legend: Focus Order
+      - Values: Total Sales (Show percentage data labels)
+   4. Card Visuals:
+      - Card 1: Total Sales (29,900)
+      - Card 2: Order Count (10)
