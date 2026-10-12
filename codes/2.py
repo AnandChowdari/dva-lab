@@ -1,34 +1,124 @@
-# Experiment 2: Star Schema OLAP Operations (PostgreSQL)
+# ==============================================================================
+# LAB CYCLE - 2
+# Aim: Perform OLAP operations by creating and using Materialized views based on a Star schema.
+# ==============================================================================
 
-sql_queries = """
--- Dimension Tables
-CREATE TABLE dim_item (item_id INT PRIMARY KEY, item_name VARCHAR(50), category VARCHAR(50));
-CREATE TABLE dim_location (location_id INT PRIMARY KEY, store_name VARCHAR(50), city VARCHAR(50));
-CREATE TABLE dim_time (time_id INT PRIMARY KEY, date DATE, month INT, year INT);
+sql_queries = """-- 1. Create Dimension Tables
+CREATE TABLE dim_time (
+    time_id INT PRIMARY KEY,
+    day DATE,
+    month VARCHAR(20),
+    quarter VARCHAR(5),
+    year INT
+);
 
--- Fact Table
+INSERT INTO dim_time VALUES
+(1, '2024-06-01', 'June', 'Q2', 2024),
+(2, '2024-06-02', 'June', 'Q2', 2024),
+(3, '2024-06-15', 'June', 'Q2', 2024),
+(4, '2024-07-01', 'July', 'Q3', 2024),
+(5, '2024-07-02', 'July', 'Q3', 2024),
+(6, '2024-07-03', 'July', 'Q3', 2024),
+(7, '2024-08-01', 'August', 'Q3', 2024),
+(8, '2024-08-15', 'August', 'Q3', 2024);
+
+CREATE TABLE dim_product (
+    product_id INT PRIMARY KEY,
+    item_name VARCHAR(50),
+    brand VARCHAR(50),
+    category VARCHAR(50)
+);
+
+INSERT INTO dim_product VALUES
+(1, 'Laptop',     'BrandA', 'Electronics'),
+(2, 'Phone',      'BrandB', 'Electronics'),
+(3, 'Tablet',     'BrandA', 'Electronics'),
+(4, 'Headphones', 'BrandC', 'Accessories'),
+(5, 'Smartwatch', 'BrandB', 'Accessories'),
+(6, 'Monitor',    'BrandA', 'Electronics'),
+(7, 'Keyboard',   'BrandD', 'Accessories'),
+(8, 'Charger',    'BrandE', 'Accessories');
+
+CREATE TABLE dim_city (
+    city_id INT PRIMARY KEY,
+    city VARCHAR(50),
+    state VARCHAR(50),
+    country VARCHAR(50)
+);
+
+INSERT INTO dim_city VALUES
+(1, 'CityA', 'State1', 'Country1'),
+(2, 'CityB', 'State1', 'Country1'),
+(3, 'CityC', 'State2', 'Country1'),
+(4, 'CityD', 'State2', 'Country1'),
+(5, 'CityE', 'State3', 'Country1'),
+(6, 'CityF', 'State3', 'Country1'),
+(7, 'CityG', 'State4', 'Country1'),
+(8, 'CityH', 'State4', 'Country1');
+
+-- 2. Create Fact Table
 CREATE TABLE fact_sales (
-    sale_id SERIAL PRIMARY KEY,
-    item_id INT REFERENCES dim_item(item_id),
-    location_id INT REFERENCES dim_location(location_id),
+    sales_id INT PRIMARY KEY,
+    product_id INT REFERENCES dim_product(product_id),
+    city_id INT REFERENCES dim_city(city_id),
     time_id INT REFERENCES dim_time(time_id),
     sales_amount DECIMAL(10, 2)
 );
 
--- Materialized View
-CREATE MATERIALIZED VIEW star_sales_cube AS
-SELECT i.item_name, l.city, t.year, SUM(f.sales_amount) AS total_sales
+INSERT INTO fact_sales VALUES
+(1, 1, 1, 1, 1000.00),
+(2, 2, 1, 1,  500.00),
+(3, 1, 2, 2, 1500.00),
+(4, 3, 1, 3,  750.00),
+(5, 2, 2, 4,  300.00),
+(6, 1, 3, 5, 2000.00),
+(7, 3, 4, 6,  800.00),
+(8, 5, 5, 7,  600.00);
+
+-- 3. Create Materialized View
+CREATE MATERIALIZED VIEW sales_cube AS
+SELECT p.category, p.item_name, c.state, c.city, t.month,
+       SUM(f.sales_amount) AS total_sales
 FROM fact_sales f
-JOIN dim_item i ON f.item_id = i.item_id
-JOIN dim_location l ON f.location_id = l.location_id
-JOIN dim_time t ON f.time_id = t.time_id
-GROUP BY CUBE (i.item_name, l.city, t.year);
+JOIN dim_product p ON f.product_id = p.product_id
+JOIN dim_city c    ON f.city_id    = c.city_id
+JOIN dim_time t    ON f.time_id    = t.time_id
+GROUP BY CUBE (p.category, p.item_name, c.state, c.city, t.month);
 
--- Roll Up
-SELECT item_name, SUM(total_sales) FROM star_sales_cube WHERE city IS NULL AND year IS NULL GROUP BY item_name;
+-- 4. Roll Up: Total sales by product category
+SELECT category, total_sales FROM sales_cube
+WHERE category IS NOT NULL AND item_name IS NULL AND state IS NULL
+  AND city IS NULL AND month IS NULL
+ORDER BY category;
 
--- Drill Down
-SELECT item_name, city, total_sales FROM star_sales_cube WHERE item_name IS NOT NULL AND city IS NOT NULL;
-"""
+-- 5. Drill Down: Sales of Electronics by city
+SELECT city, total_sales FROM sales_cube
+WHERE category = 'Electronics' AND item_name IS NULL AND state IS NULL
+  AND city IS NOT NULL AND month IS NULL
+ORDER BY city;
 
-print(sql_queries)
+-- 6. Slice: Sales in June
+SELECT item_name, city, total_sales FROM sales_cube
+WHERE month = 'June' AND item_name IS NOT NULL AND city IS NOT NULL
+  AND category IS NULL AND state IS NULL
+ORDER BY item_name, city;
+
+-- 7. Dice: Laptop and Phone in CityA and CityB for June
+SELECT item_name, city, total_sales FROM sales_cube
+WHERE item_name IN ('Laptop','Phone') AND city IN ('CityA','CityB')
+  AND month = 'June' AND category IS NULL AND state IS NULL
+ORDER BY item_name, city;
+
+-- 8. Pivot: Sales by item and month
+SELECT item_name,
+       SUM(CASE WHEN month = 'June'   THEN total_sales ELSE 0 END) AS june,
+       SUM(CASE WHEN month = 'July'   THEN total_sales ELSE 0 END) AS july,
+       SUM(CASE WHEN month = 'August' THEN total_sales ELSE 0 END) AS august
+FROM sales_cube
+WHERE item_name IS NOT NULL AND month IS NOT NULL AND category IS NULL
+  AND state IS NULL AND city IS NULL
+GROUP BY item_name
+ORDER BY item_name;"""
+
+if __name__ == '__main__':
+    print(sql_queries)

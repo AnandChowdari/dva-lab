@@ -1,22 +1,21 @@
-# Experiment 7: Empirical Cumulative Distribution Function (ECDF) Plot
-import matplotlib.pyplot as plt
+# ==============================================================================
+# LAB CYCLE - 7
+# Aim: Write a Python program to implement an Empirical Cumulative Distribution Function (ECDF) plot.
+# ==============================================================================
+
 import numpy as np
-import statsmodels.api as sm
+import matplotlib.pyplot as plt
 
 np.random.seed(0)
-data = np.random.normal(loc=0, scale=1, size=100)
+data = np.random.normal(0, 1, 100)
 
-# Compute ECDF
-ecdf = sm.distributions.ECDF(data)
-x = np.linspace(min(data), max(data), 100)
-y = ecdf(x)
+x = np.sort(data)
+y = np.arange(1, len(x) + 1) / len(x)
 
 plt.figure(figsize=(6, 4))
-plt.step(x, y, where='post', label='ECDF', color='purple')
-plt.xlabel('Value')
-plt.ylabel('P(X <= x)')
+plt.step(x, y, where='post')
+plt.xlabel('Data Values')
+plt.ylabel('ECDF')
 plt.title('Empirical Cumulative Distribution Function (ECDF)')
-plt.legend()
-plt.grid(True, linestyle='--', alpha=0.6)
-plt.tight_layout()
+plt.grid(True)
 plt.show()

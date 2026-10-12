@@ -1,86 +1,142 @@
 {
   "1": {
-    "name": "OLAP Operations Using Materialized Views",
-    "description": "OLAP Operations Using Materialized Views",
-    "category": "SQL / OLAP",
-    "language": "python",
-    "file": "codes/1.py"
+    "id": 1,
+    "title": "OLAP Operations Using Materialized Views and SQL Joins & Subqueries",
+    "category": "OLAP & Data Warehousing (SQL)",
+    "file": "codes/1.py",
+    "language": "sql",
+    "aim": "Perform OLAP operations using Materialized views and write SQL queries using Joins & Subqueries.",
+    "dependencies": [
+      "PostgreSQL 12+"
+    ]
   },
   "2": {
-    "name": "OLAP Operations Using Star Schema",
-    "description": "OLAP Operations Using Star Schema",
-    "category": "SQL / OLAP",
-    "language": "python",
-    "file": "codes/2.py"
+    "id": 2,
+    "title": "Star Schema OLAP Operations Using Materialized Views",
+    "category": "OLAP & Data Warehousing (SQL)",
+    "file": "codes/2.py",
+    "language": "sql",
+    "aim": "Perform OLAP operations by creating and using Materialized views based on a Star schema.",
+    "dependencies": [
+      "PostgreSQL 12+"
+    ]
   },
   "3": {
-    "name": "Vertical and Horizontal Bar Charts",
-    "description": "Vertical and Horizontal Bar Charts",
-    "category": "Visualization",
+    "id": 3,
+    "title": "Horizontal and Vertical Bar Charts",
+    "category": "Data Visualization (Python)",
+    "file": "codes/3.py",
     "language": "python",
-    "file": "codes/3.py"
+    "aim": "Write a Python program to Implement or create horizontal and vertical bar charts.",
+    "dependencies": [
+      "matplotlib",
+      "numpy"
+    ]
   },
   "4": {
-    "name": "Grouped and Stacked Bar Charts",
-    "description": "Grouped and Stacked Bar Charts",
-    "category": "Visualization",
+    "id": 4,
+    "title": "Grouped and Stacked Bar Charts",
+    "category": "Data Visualization (Python)",
+    "file": "codes/4.py",
     "language": "python",
-    "file": "codes/4.py"
+    "aim": "Write a Python program to Implement or create grouped and stacked bar charts.",
+    "dependencies": [
+      "matplotlib",
+      "numpy"
+    ]
   },
   "5": {
-    "name": "Single and Multiple Variable Histograms",
-    "description": "Single and Multiple Variable Histograms",
-    "category": "Visualization",
+    "id": 5,
+    "title": "Histogram (Single and Multiple Variables)",
+    "category": "Data Visualization (Python)",
+    "file": "codes/5.py",
     "language": "python",
-    "file": "codes/5.py"
+    "aim": "Write a Python program to implement histogram using single and multiple variable distribution.",
+    "dependencies": [
+      "matplotlib",
+      "numpy"
+    ]
   },
   "6": {
-    "name": "Single and Multiple Variable Density Plots",
-    "description": "Single and Multiple Variable Density Plots",
-    "category": "Visualization",
+    "id": 6,
+    "title": "Density Plot (Single and Multiple Variables)",
+    "category": "Data Visualization (Python)",
+    "file": "codes/6.py",
     "language": "python",
-    "file": "codes/6.py"
+    "aim": "Write a Python program to implement density plot using single and multiple variable distribution.",
+    "dependencies": [
+      "matplotlib",
+      "seaborn",
+      "numpy"
+    ]
   },
   "7": {
-    "name": "Empirical Cumulative Distribution Function (ECDF) Plot",
-    "description": "Empirical Cumulative Distribution Function (ECDF) Plot",
-    "category": "Visualization",
+    "id": 7,
+    "title": "Empirical Cumulative Distribution Function (ECDF)",
+    "category": "Data Visualization (Python)",
+    "file": "codes/7.py",
     "language": "python",
-    "file": "codes/7.py"
+    "aim": "Write a Python program to implement an Empirical Cumulative Distribution Function (ECDF) plot.",
+    "dependencies": [
+      "matplotlib",
+      "numpy"
+    ]
   },
   "8": {
-    "name": "Q-Q Plot to Compare Two Datasets",
-    "description": "Q-Q Plot to Compare Two Datasets",
-    "category": "Visualization",
+    "id": 8,
+    "title": "Q-Q (Quantile-Quantile) Plot",
+    "category": "Data Visualization (Python)",
+    "file": "codes/8.py",
     "language": "python",
-    "file": "codes/8.py"
+    "aim": "Write a Python program to implement a Q-Q (quantile-quantile) plot to compare two datasets.",
+    "dependencies": [
+      "matplotlib",
+      "numpy"
+    ]
   },
   "9": {
-    "name": "Scatter Plot Using Sample Data",
-    "description": "Scatter Plot Using Sample Data",
-    "category": "Visualization",
+    "id": 9,
+    "title": "Scatter Plot Using Sample Data",
+    "category": "Data Visualization (Python)",
+    "file": "codes/9.py",
     "language": "python",
-    "file": "codes/9.py"
+    "aim": "Write a Python program to implement a Scatter Plot using sample data.",
+    "dependencies": [
+      "matplotlib",
+      "numpy"
+    ]
   },
   "10": {
-    "name": "Power BI Sales Data Visualization",
-    "description": "Power BI Sales Data Visualization",
-    "category": "Power BI",
+    "id": 10,
+    "title": "Sales Data Visualization Using Predefined Fields",
+    "category": "Business Intelligence (Power BI)",
+    "file": "codes/10.py",
     "language": "python",
-    "file": "codes/10.py"
+    "aim": "Using Power BI, perform sales data visualization using predefined fields.",
+    "dependencies": [
+      "Power BI Desktop"
+    ]
   },
   "11": {
-    "name": "Power BI Sales Calculations and DAX Measures",
-    "description": "Power BI Sales Calculations and DAX Measures",
-    "category": "Power BI",
+    "id": 11,
+    "title": "Sales Calculation and Percentage Analysis Using Calculated Columns and DAX Measures",
+    "category": "Business Intelligence (Power BI / DAX)",
+    "file": "codes/11.py",
     "language": "python",
-    "file": "codes/11.py"
+    "aim": "Using Power BI, perform sales calculation and percentage analysis using calculated columns and DAX measures.",
+    "dependencies": [
+      "Power BI Desktop"
+    ]
   },
   "12": {
-    "name": "Power BI Conditional and Logical Analysis",
-    "description": "Power BI Conditional and Logical Analysis",
-    "category": "Power BI",
+    "id": 12,
+    "title": "Conditional and Logical Analysis Using IF, AND, OR and Totals/Percentages",
+    "category": "Business Intelligence (Power BI / DAX)",
+    "file": "codes/12.py",
     "language": "python",
-    "file": "codes/12.py"
+    "aim": "Using Power BI, perform conditional and logical analysis using IF, AND, OR, and display totals and percentages using visualizations.",
+    "dependencies": [
+      "Power BI Desktop"
+    ]
   }
 }
