@@ -57,7 +57,7 @@ from .exceptions import (
 )
 from .jupyter_extension import load_ipython_extension, unload_ipython_extension
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 __author__ = "Anand Chowdari"
 
 __all__ = [

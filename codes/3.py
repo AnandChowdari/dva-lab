@@ -1,8 +1,4 @@
-# ============================================================================
 # Experiment 3: Vertical and Horizontal Bar Charts
-# Libraries: matplotlib, numpy
-# ============================================================================
-
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -11,9 +7,7 @@ regions = ['North', 'South', 'East', 'West']
 sales = [200, 220, 250, 190]
 positions = np.arange(len(regions))
 
-# ----------------------------------------------------------------------------
 # 1. Vertical Bar Chart
-# ----------------------------------------------------------------------------
 plt.figure(figsize=(6, 4))
 plt.bar(positions, sales, color='steelblue')
 plt.xticks(positions, regions)
@@ -23,9 +17,7 @@ plt.title('Vertical Bar Chart of Sales by Region')
 plt.tight_layout()
 plt.show()
 
-# ----------------------------------------------------------------------------
 # 2. Horizontal Bar Chart
-# ----------------------------------------------------------------------------
 plt.figure(figsize=(6, 4))
 plt.barh(positions, sales, color='steelblue')
 plt.yticks(positions, regions)
